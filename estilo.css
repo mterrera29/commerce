@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    justify-items: center;
+    margin: 10px;
+}
+.card{
+    margin: 20px;
+    width: 200px;
+    
+}
+.btnCarrito{
+    font-size: 25px;
+}

@@ -66,6 +66,15 @@ productos.forEach((product) =>{
         modal.style.display = "none" /// oculta el fondo sombra del carrito
         cantidadProductos()/// sumar la cantidad de productos al icono carrito
         vacio()///mostrar cartel de carrito vacio
+        Toastify({
+
+            text: `${product.nombre} añadido`,
+            duration: 1500,
+            position: "center",
+            style: {
+                background: "#f0ad4e",
+              },
+            }).showToast();
     })
     vacio()///mostrar cartel de carrito vacio
 })
@@ -173,6 +182,16 @@ function llenarCarrito(){
 
         eliminar.addEventListener("click",()=>{
             eliminarProducto(product.id)
+            Toastify({
+
+                text:`${product.nombre} eliminado`,
+                
+                duration: 1500,
+                position: "center",
+                style: {
+                    background: "#f0ad4e",
+                  },
+                }).showToast();
              })
 
     })

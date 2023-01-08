@@ -1,13 +1,15 @@
-/* ENLACES AL HTML */
+//////////ENLACES AL HTML 
+
 const cards = document.getElementById("containerShop")
 const carritoContainer = document.getElementById("carritoContainer")
 const verCarrito= document.getElementById("verCarrito")
 const verCarrito2= document.getElementById("verCarrito2")
 const carritoVacio= document.getElementById("carritoVacio")
+const modal = document.getElementById("modal")
 
 
 
-/* ARRAY CON OBJETOS DE PRODUCTOS */
+////////ARRAY CON OBJETOS DE PRODUCTOS 
 
 const productos =[
     {id: 1, nombre : "Respaldo Lumbar", precio: 1500, img: "https://http2.mlstatic.com/D_NQ_NP_819600-MLA44124471429_112020-V.webp", cantidad: 1},
@@ -20,6 +22,10 @@ const productos =[
 /* ARRAY DEL CARRITO */
 /* llenar el carrito con lo guardado en localStorage(JSON) o (||) sino empezar con el carrito vacio */
 let carrito= JSON.parse(localStorage.getItem("carrito")) || []
+
+
+
+/////PRODUCTOS EN HTML
 
 
 
@@ -47,35 +53,39 @@ productos.forEach((product) =>{
     
     /* EVENTO CLICK PARA CADA TARJETA Y PUSH DEL PRODUCTO AL CARRITO */
   
-        comprar.addEventListener("click",()=>{
-            carrito.push({
-                id: product.id,
-                nombre: product.nombre,
-                precio: product.precio,
-                cantidad: product.cantidad,
-                img: product.img,
-
-            })
-            console.log(carrito)
-            carritoContainer.style.display="none"
-
-            cantidadProductos()
-            vacio()
+    comprar.addEventListener("click",()=>{
+        carrito.push({
+            id: product.id,
+            nombre: product.nombre,
+            precio: product.precio,
+            cantidad: product.cantidad,
+            img: product.img,
         })
-
-    
-    vacio()
-    
+        console.log(carrito)
+        carritoContainer.style.display="none" ///oculta el carrito cada vez que damos COMPRAR en un producto
+        modal.style.display = "none" /// oculta el fondo sombra del carrito
+        cantidadProductos()/// sumar la cantidad de productos al icono carrito
+        vacio()///mostrar cartel de carrito vacio
+    })
+    vacio()///mostrar cartel de carrito vacio
 })
 
-/* FUNCION PARA LLENAR EL CARRTIO */
+
+
+
+////////ACA EMPIEZA EL CARRITO
+
+
+
+
+/* FUNCION PARA LLENAR EL CARRITO */
 const pintarCarrito = () =>{
 
-    carritoContainer.style.display="block"
+    carritoContainer.style.display="block" ///muestra el carrito
     
-    carritoContainer.innerHTML=""
+    carritoContainer.innerHTML=""  ///resetea el html para que se vuelva a llenar
 
-     /* HEADER DEL CARRITO */
+    /* HEADER DEL CARRITO */
     const carritoHeader = document.createElement("div")
     carritoHeader.className="carritoHeader card-header"
     carritoHeader.innerHTML= `
@@ -92,54 +102,55 @@ const pintarCarrito = () =>{
     
     carritoBtn.addEventListener("click",()=>{
         carritoContainer.style.display="none"
-         })
+        modal.style.display = "none" /// oculta el fondo sombra del carrito
+    }) ///evento que oculta el carrito
+            
+    llenarCarrito() /// ciclo FOR EACH que crea el html y el boton eliminar para cada producto del array carrito
          
-         /* CREA EL HTML PARA CADA PRODUCTO EN EL CARRITO */
+    /* BOTON para vaciar el CARRITO */
+    const carritoBtn2 = document.createElement("h4")
+    carritoBtn2.innerText=("Vaciar Carrito")
+    carritoBtn2.className=("carritoBtn2 btn btn-primary")
+    carritoContainer.append(carritoBtn2)
          
-         llenarCarrito()
-         
-         /* BOTON para vaciar el CARRITO */
-         const carritoBtn2 = document.createElement("h4")
-         carritoBtn2.innerText=("Vaciar Carrito")
-         carritoBtn2.className=("carritoBtn2 btn btn-primary")
-         carritoContainer.append(carritoBtn2)
-         
-         carritoBtn2.addEventListener("click",()=>{
-     
-             /* LIBRERIA SWEETALERT PARA AVISAR QUE VAS A VACIAR EL CARRITO */
-             Swal.fire({
-                 title: 'Está seguro de VACIAR el CARRITO?',
-                 text: "Esta acción no podrá revertirse!",
-                 icon: 'warning',
-                 showCancelButton: true,
-                 confirmButtonColor: '#3085d6',
-                 cancelButtonColor: '#d33',
-                 confirmButtonText: 'Vaciar Carrito!'
-               }).then((result) => {
-                 if (result.isConfirmed) {
-                     vaciarCarrito()
-                     cantidadProductos()
-                     vacio()
-                     carritoContainer.style.display="none"
-                   Swal.fire(
-                     'Carrito Vacio!',
-                     'Vuelva a elegir otros productos.',
-                     'success'
-                   )
-                 }
-               })
-              })
-    /* SUMAR LOS PRODUCTOS EN UN FILTRO ACUMULADOR (.REDUCE) */
+    carritoBtn2.addEventListener("click",()=>{
+        /* LIBRERIA SWEETALERT PARA AVISAR QUE VAS A VACIAR EL CARRITO */
+        Swal.fire({
+            title: 'Está seguro de VACIAR el CARRITO?',
+            text: "Esta acción no podrá revertirse!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Vaciar Carrito!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                vaciarCarrito()
+                cantidadProductos()/// sumar la cantidad de productos al icono carrito
+                vacio()///mostrar cartel de carrito vacio
+                carritoContainer.style.display="none"
+                modal.style.display = "none" /// oculta el fondo sombra del carrito
+              Swal.fire(
+                'Carrito Vacio!',
+                'Vuelva a elegir otros productos.',
+                'success'
+                 )
+            }
+        })
+    })
 
-    totalProductos()
+    totalProductos() /// suma el TOTAL del PRECIO de los productos
 
-    cantidadProductos()
+    cantidadProductos() /// sumar la cantidad de productos al icono carrito
     
-    /* funcion para guardar el array en LOCAL STORAJE (JSON) */
-    saveLocal()
+    saveLocal()///guardar los productos del array en LOCAL STORAGE
 }
 
- /* CREA EL HTML PARA CADA PRODUCTO EN EL CARRITO */
+
+///////FUNCIONES
+
+
+/* FUNCION QUE CREA EL HTML PARA CADA PRODUCTO EN EL CARRITO */
 function llenarCarrito(){
     carrito.forEach((product) =>{
          
@@ -165,7 +176,6 @@ function llenarCarrito(){
              })
 
     })
-    
 }
 
 /* FUNCION SUMAR LOS PRODUCTOS EN UN FILTRO ACUMULADOR (.REDUCE) */
@@ -186,7 +196,7 @@ function cantidadProductos(){
     const cantidadCarrito = document.createElement("div")
     cantidadCarrito.className = "carritoCantidad"
     cantidadCarrito.innerHTML= `
-    <h5>${cantidad} </h5>
+    <h5>${cantidad}</h5>
     `
     verCarrito2.append(cantidadCarrito)
 
@@ -194,23 +204,21 @@ function cantidadProductos(){
 
     cantidad === 0? verCarrito2.style.display="none" : verCarrito2.style.display="block"
     
-    saveLocal()
+    saveLocal()///guardar los productos del array en LOCAL STORAGE
 }
 
 /* FUNCION PARA VACIAR CARRITO */
 function vaciarCarrito() {
     carrito = [];
-    pintarCarrito()
+    pintarCarrito() ///llenar el carrito con los productos del array
 }
 
-/* EVENTO PARA ABRIR EL CARRITO CON EL BOTON  */
-verCarrito.addEventListener("click", pintarCarrito)
 
 
 /* FUNCION PARA ELIMINAR EL PRODUCTO DEL CARRITO */
 const eliminarProducto= (id)=>{
     const foundId = carrito.find((element)=>element.id === id)
-
+    
     carrito = carrito.filter((carritoId)=>{
         return carritoId !==foundId
     })
@@ -218,15 +226,15 @@ const eliminarProducto= (id)=>{
     /* funcion para guardar el array en LOCAL STORAJE (JSON) */
     saveLocal()
     /* FUNCION PARA QUE VUELVA A MOSTRAR LOS PRODUCTOS QUE ESTAN EN EL CARRITO MENOS EL QUE PEDI ELIMINAR */
-    pintarCarrito()
-    vacio()
+    pintarCarrito() ///llenar el carrito con los productos del array
+    vacio() ///mostrar cartel de carrito vacio
 }
 
 
-/* guardar datos del carrito en JSONNN */
+/*  FUNCION para guardar datos del carrito en JSONNN */
 const saveLocal=()=>{
     localStorage.setItem("carrito",JSON.stringify(carrito))
- }
+}
 
 
 /* FUNCION PARA MOSTRAR EL CARTEL DE CARRITO VACIO (OPERADOR TERNARIO) */
@@ -234,4 +242,13 @@ function vacio(){
     carrito.length === 0 ? carritoVacio.style.display = "block" : carritoVacio.style.display = "none"
 }
 
-cantidadProductos()
+/* EVENTO PARA ABRIR EL CARRITO CON EL BOTON CARRITO */
+verCarrito.addEventListener("click",()=>{
+    pintarCarrito()
+    modal.style.display = "block" /// muestra el fondo sombra del carrito
+
+     })
+
+cantidadProductos() /// sumar la cantidad de productos al icono carrito
+
+

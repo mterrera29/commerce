@@ -1,13 +1,95 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+main{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+}
 .container{
     display: flex;
-    justify-items: center;
-    margin: 10px;
+    width: 95%;
+    justify-content: center;
+    margin: 0px;
+    padding: 0px;
+    flex-wrap: wrap;
 }
-.card{
+.tarjetas{
     margin: 20px;
-    width: 200px;
+    width: 300px;
+    min-width: 200px;
+    max-width: 200px;
     
 }
 .btnCarrito{
     font-size: 25px;
+}
+
+.carritoBtn{
+    cursor: pointer;
+}
+
+.carritoContent{
+    margin: 10px;
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.carritoHeader{
+    display: flex;
+    justify-content: space-between;
+}
+
+.divContainer{
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    height: auto;
+}
+.carrito{
+    display: none;
+    text-align: center;
+    width: 70%;
+    /* min-width: 500px; */
+    background-color: rgb(255, 255, 255);
+
+    animation: bounceInDown; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 0.5s; /* don't forget to set a duration! */
+}
+
+
+.carritoBtn2{
+    margin: 10px;
+}
+.img-card{
+    width: 150px;
+    height: 150px;
+}
+.img-carrito{
+    width: 40px;
+    height: 40px;
+}
+
+.vacio{
+    text-align: center;
+}
+
+.carrito2{
+    min-width: 20px;
+    position: absolute;
+    height: 25px;
+    bottom: 5px;
+    right: 7px;
+    background-color: red;
+    color: white;
+    border-radius: 25%;
+    font-size: 5px;
 }

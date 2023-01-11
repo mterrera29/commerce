@@ -68,7 +68,7 @@ productos.forEach((product) =>{
         vacio()///mostrar cartel de carrito vacio
         Toastify({
 
-            text: `${product.nombre} añadido`,
+            text: `${product.nombre} añadido...`,
             duration: 1500,
             position: "center",
             style: {
@@ -109,12 +109,12 @@ const pintarCarrito = () =>{
     carritoBtn.className=("carritoBtn btn btn-danger")
     carritoHeader.append(carritoBtn)
     
-    carritoBtn.addEventListener("click",()=>{
+    carritoBtn.addEventListener("click",()=>{ ///evento que oculta el carrito
         carritoContainer.style.display="none"
         modal.style.display = "none" /// oculta el fondo sombra del carrito
-    }) ///evento que oculta el carrito
+    }) 
             
-    llenarCarrito() /// ciclo FOR EACH que crea el html y el boton eliminar para cada producto del array carrito
+    llenarCarrito() /// llama la funcion del ciclo FOR EACH que crea el html y el boton eliminar para cada producto del array carrito
          
     /* BOTON para vaciar el CARRITO */
     const carritoBtn2 = document.createElement("h4")
@@ -134,7 +134,7 @@ const pintarCarrito = () =>{
             confirmButtonText: 'Vaciar Carrito!'
         }).then((result) => {
             if (result.isConfirmed) {
-                vaciarCarrito()
+                vaciarCarrito()///funcion para vaciar el carrito
                 cantidadProductos()/// sumar la cantidad de productos al icono carrito
                 vacio()///mostrar cartel de carrito vacio
                 carritoContainer.style.display="none"
@@ -150,7 +150,7 @@ const pintarCarrito = () =>{
 
     totalProductos() /// suma el TOTAL del PRECIO de los productos
 
-    cantidadProductos() /// sumar la cantidad de productos al icono carrito
+    cantidadProductos() /// suma la cantidad de productos al icono carrito
     
     saveLocal()///guardar los productos del array en LOCAL STORAGE
 }
@@ -184,7 +184,7 @@ function llenarCarrito(){
             eliminarProducto(product.id)
             Toastify({
 
-                text:`${product.nombre} eliminado`,
+                text:`${product.nombre} eliminado...`,
                 
                 duration: 1500,
                 position: "center",

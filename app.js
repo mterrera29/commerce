@@ -9,74 +9,66 @@ const modal = document.getElementById("modal")
 
 
 
-////////ARRAY CON OBJETOS DE PRODUCTOS 
 
-const productos =[
-    {id: 1, nombre : "Respaldo Lumbar", precio: 1500, img: "https://http2.mlstatic.com/D_NQ_NP_819600-MLA44124471429_112020-V.webp", cantidad: 1},
-    {id: 2, nombre : "Masajeador Cervical", precio: 5000, img:"https://http2.mlstatic.com/D_NQ_NP_853352-MLA51767605021_092022-O.webp", cantidad: 1},
-    {id: 3, nombre : "Blanqueador Dental", precio: 500, img: "https://http2.mlstatic.com/D_NQ_NP_667173-MLA48322978191_112021-O.webp", cantidad: 1},
-    {id: 4, nombre : "Cepillo Biodegradable", precio: 800, img: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/040/363/products/meraki-21-123e4ac70e276d920615722213253108-640-0.webp", cantidad: 1},
-    ]
-
-
-/* ARRAY DEL CARRITO */
-/* llenar el carrito con lo guardado en localStorage(JSON) o (||) sino empezar con el carrito vacio */
-let carrito= JSON.parse(localStorage.getItem("carrito")) || []
-
-
-
-/////PRODUCTOS EN HTML
-
-
-
-/* CICLO FOR EACH... PARA INSERTAR EN EL HTML UNA CARD PARA CADA UNO DE LOS PRODUCTOS DE ARRAY */
-productos.forEach((product) =>{
-    /* CREA EL HTML PARA LAS TARJETAS */
-    let content = document.createElement("div")
-    content.className= "tarjetas card shadow"
-    content.innerHTML=`
-    <div class="card-body">
-        <h5 class="card-header">ID: ${product.id}</h5>
-        <img src="${product.img}" alt="" class="img-card">
-        <h4 >${product.nombre}</h4>
-        <p >Precio: $${product.precio}</p>
-    </div>        
-    `
-    cards.append(content)
-
-    /* CREA EL BOTON COMPRAR DENTRO DE LAS TARJETAS */
-
-    let comprar = document.createElement("button")
-    comprar.innerText = "Comprar"
-    comprar.className = "comprar btn btn-primary"
-    content.append(comprar)
+    /* ARRAY DEL CARRITO */
+    /* llenar el carrito con lo guardado en localStorage(JSON) o (||) sino empezar con el carrito vacio */
+    let carrito= JSON.parse(localStorage.getItem("carrito")) || []
     
-    /* EVENTO CLICK PARA CADA TARJETA Y PUSH DEL PRODUCTO AL CARRITO */
-  
-    comprar.addEventListener("click",()=>{
-        carrito.push({
-            id: product.id,
-            nombre: product.nombre,
-            precio: product.precio,
-            cantidad: product.cantidad,
-            img: product.img,
-        })
-        console.log(carrito)
-        carritoContainer.style.display="none" ///oculta el carrito cada vez que damos COMPRAR en un producto
-        modal.style.display = "none" /// oculta el fondo sombra del carrito
-        cantidadProductos()/// sumar la cantidad de productos al icono carrito
-        vacio()///mostrar cartel de carrito vacio
-        Toastify({
+    
+    
+    /////PRODUCTOS EN HTML
+    
+fetch("/data.json") /// carga los objetos de forma asincronica desde el archivo data.JSON
+.then((resp)=> resp.json())
+.then((data) =>{
+        /* CICLO FOR EACH... PARA INSERTAR EN EL HTML UNA CARD PARA CADA UNO DE LOS PRODUCTOS DE ARRAY */
+    data.forEach((product)=>{
+        let content = document.createElement("div")
+        content.className= "tarjetas card shadow"
+        content.innerHTML=`
+        <div class="card-body">
+            <h5 class="card-header">ID: ${product.id}</h5>
+            <img src="${product.img}" alt="" class="img-card">
+            <h4 >${product.nombre}</h4>
+            <p >Precio: $${product.precio}</p>
+        </div>        
+        `
+        cards.append(content)
 
-            text: `${product.nombre} añadido...`,
-            duration: 1500,
-            position: "center",
-            style: {
-                background: "#f0ad4e",
-              },
-            }).showToast();
+        /* CREA EL BOTON COMPRAR DENTRO DE LAS TARJETAS */
+
+        let comprar = document.createElement("button")
+        comprar.innerText = "Comprar"
+        comprar.className = "comprar btn btn-primary"
+        content.append(comprar)
+    
+        /* EVENTO CLICK PARA CADA TARJETA Y PUSH DEL PRODUCTO AL CARRITO */
+  
+        comprar.addEventListener("click",()=>{
+        carrito.push({
+                id: product.id,
+                nombre: product.nombre,
+                precio: product.precio,
+                cantidad: product.cantidad,
+                img: product.img,
+            })
+            console.log(carrito)
+            carritoContainer.style.display="none" ///oculta el carrito cada vez que damos COMPRAR en un producto
+            modal.style.display = "none" /// oculta el fondo sombra del carrito
+            cantidadProductos()/// sumar la cantidad de productos al icono carrito
+            vacio()///mostrar cartel de carrito vacio
+            Toastify({
+    
+                text: `${product.nombre} añadido...`,
+                duration: 1500,
+                position: "center",
+                style: {
+                    background: "#1bac23",
+                  },
+                }).showToast();
+        })
+        vacio()///mostrar cartel de carrito vacio
     })
-    vacio()///mostrar cartel de carrito vacio
 })
 
 
@@ -105,7 +97,7 @@ const pintarCarrito = () =>{
 
     /* BOTON CERRAR DEL CARRITO */
     const carritoBtn = document.createElement("h2")
-    carritoBtn.innerText=("X")
+    carritoBtn.innerText=("Cerrar")
     carritoBtn.className=("carritoBtn btn btn-danger")
     carritoHeader.append(carritoBtn)
     
@@ -116,12 +108,22 @@ const pintarCarrito = () =>{
             
     llenarCarrito() /// llama la funcion del ciclo FOR EACH que crea el html y el boton eliminar para cada producto del array carrito
          
-    /* BOTON para vaciar el CARRITO */
+    /* CREA BOTON para vaciar el CARRITO */
     const carritoBtn2 = document.createElement("h4")
     carritoBtn2.innerText=("Vaciar Carrito")
-    carritoBtn2.className=("carritoBtn2 btn btn-primary")
+    carritoBtn2.className=("carritoBtn2 btn btn-warning")
     carritoContainer.append(carritoBtn2)
-         
+    
+    ///FUNCION AVANZADA (? : REEMPLAZA IF ELSE)
+    carrito.length === 0 ?//SI EL CARRITO YA ESTA VACIO HACE ESTO...
+        carritoBtn2.addEventListener("click",()=>{
+            Swal.fire({
+                icon: 'warning',
+                title: 'El carrito ya está vacio...',
+                text: 'Elegir algún producto.',
+              })
+        })
+    :    //SI NO ESTÁ VACIO HACE ESTO..
     carritoBtn2.addEventListener("click",()=>{
         /* LIBRERIA SWEETALERT PARA AVISAR QUE VAS A VACIAR EL CARRITO */
         Swal.fire({
@@ -131,7 +133,8 @@ const pintarCarrito = () =>{
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Vaciar Carrito!'
+            confirmButtonText: 'Vaciar Carrito',
+            cancelButtonText: 'Cancelar',
         }).then((result) => {
             if (result.isConfirmed) {
                 vaciarCarrito()///funcion para vaciar el carrito
@@ -147,6 +150,54 @@ const pintarCarrito = () =>{
             }
         })
     })
+
+    /* CREA BOTON para COMPRAR LOS PRODUCTOS */
+    const carritoBtn3 = document.createElement("h4")
+    carritoBtn3.innerText=("Realizar Compra")
+    carritoBtn3.className=("carritoBtn3 btn btn-primary")
+    carritoContainer.append(carritoBtn3)
+    
+    ///FUNCION AVANZADA (? : REEMPLAZA IF ELSE)
+    carrito.length === 0 ?//SI EL CARRITO ESTA VACIO HACE ESTO...
+        carritoBtn3.addEventListener("click",()=>{
+            Swal.fire({
+                icon: 'warning',
+                title: 'El carrito está vacio...',
+                text: 'Elige algún producto para comprar.',
+              })
+        })
+    :  //SI NO ESTÁ VACIO HACE ESTO..
+        carritoBtn3.addEventListener("click",()=>{
+            /* LIBRERIA SWEETALERT PARA AVISAR QUE VAS A COMPRAR LOS PRODUCTOS */
+            Swal.fire({
+                title: 'Desea realizar la COMPRA?',
+                text: "Esta acción vaciara el carrito",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#42ba96',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Realizar Compra',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    vaciarCarrito()///funcion para vaciar el carrito
+                    cantidadProductos()/// sumar la cantidad de productos al icono carrito
+                    vacio()///mostrar cartel de carrito vacio
+                    carritoContainer.style.display="none"
+                    modal.style.display = "none" /// oculta el fondo sombra del carrito
+                  Swal.fire(
+                    'Gracias por REALIZAR LA COMPRA!',
+                    'En breve BOLIVAR VIP se contactará con Ud. para coordinar la entrega.',
+                    'success'
+                     )
+                     
+                }
+            })
+        })
+
+
+    
+    
 
     totalProductos() /// suma el TOTAL del PRECIO de los productos
 
@@ -176,7 +227,7 @@ function llenarCarrito(){
 
         /* CREA BOTON PARA ELIMINAR PRODUCTOS DEL CARRITO */
         let eliminar= document.createElement("button")
-        eliminar.innerText="Eliminar"
+        eliminar.innerText="X"
         eliminar.className="btnEliminar btn btn-danger"
         carritoContent.append(eliminar)
 
@@ -189,7 +240,7 @@ function llenarCarrito(){
                 duration: 1500,
                 position: "center",
                 style: {
-                    background: "#f0ad4e",
+                    background: "#df4759",
                   },
                 }).showToast();
              })
@@ -269,5 +320,4 @@ verCarrito.addEventListener("click",()=>{
      })
 
 cantidadProductos() /// sumar la cantidad de productos al icono carrito
-
 

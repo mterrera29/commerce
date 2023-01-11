@@ -13,7 +13,7 @@ main{
 .navbar{
     position: fixed;
     width: 100%;
-    z-index: 1;
+    z-index: 3;
 }
 .divContainer{
     display: flex;
@@ -56,12 +56,30 @@ main{
     padding: 10px;
     justify-content: space-between;
     flex-wrap: wrap;
+    align-items: center;
 }
-
+.carritoContent h4{
+    margin: 0px;
+    
+}
+.carritoContent p{
+    margin: 0px;
+    
+}
 .carritoHeader{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0px;
+}
+.carritoHeader h2{
+    margin: 0px;
+}
+.carritoHeader h3{
+    margin: 0px;
+}
+.carritoFooter h3{
+    margin: 0px;
 }
 .h3{
     margin: 0px;
@@ -82,6 +100,11 @@ main{
 .carritoBtn2{
     margin: 10px;
 }
+
+.carritoBtn3{
+    margin: 10px;
+}
+
 .img-card{
     width: 150px;
     height: 150px;

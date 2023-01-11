@@ -1,0 +1,7 @@
+[
+    {"id": 1, "nombre" : "Respaldo Lumbar", "precio": 1500, "img": "https://http2.mlstatic.com/D_NQ_NP_819600-MLA44124471429_112020-V.webp", "cantidad": 1},
+    {"id": 2, "nombre" : "Masajeador Cervical", "precio": 5000, "img":"https://http2.mlstatic.com/D_NQ_NP_853352-MLA51767605021_092022-O.webp", "cantidad": 1 },
+    {"id": 3, "nombre": "Blanqueador Dental", "precio": 500, "img": "https://http2.mlstatic.com/D_NQ_NP_667173-MLA48322978191_112021-O.webp", "cantidad": 1},
+    {"id": 4, "nombre" : "Cepillo Biodegradable", "precio": 800, "img": "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/040/363/products/meraki-21-123e4ac70e276d920615722213253108-640-0.webp", "cantidad": 1}
+    
+] 

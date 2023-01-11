@@ -18,7 +18,7 @@ const modal = document.getElementById("modal")
     
     /////PRODUCTOS EN HTML
     
-fetch("./data.json") /// carga los objetos de forma asincronica desde el archivo data.JSON
+fetch("../data.json") /// carga los objetos de forma asincronica desde el archivo data.JSON
 .then((resp)=> resp.json())
 .then((data) =>{
         /* CICLO FOR EACH... PARA INSERTAR EN EL HTML UNA CARD PARA CADA UNO DE LOS PRODUCTOS DE ARRAY */

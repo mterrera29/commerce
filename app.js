@@ -9,14 +9,11 @@ const modal = document.getElementById("modal")
 
 
 
-
-    /* ARRAY DEL CARRITO */
-    /* llenar el carrito con lo guardado en localStorage(JSON) o (||) sino empezar con el carrito vacio */
-    let carrito= JSON.parse(localStorage.getItem("carrito")) || []
+/* ARRAY DEL CARRITO *//* llenar el carrito con lo guardado en localStorage(JSON) o (||) sino empezar con el carrito vacio */let carrito= JSON.parse(localStorage.getItem("carrito")) || []
     
     
     
-    /////PRODUCTOS EN HTML
+/////PRODUCTOS EN HTML
     
 fetch("./data.json") /// carga los objetos de forma asincronica desde el archivo data.JSON
 .then((resp)=> resp.json())
@@ -180,24 +177,11 @@ const pintarCarrito = () =>{
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    vaciarCarrito()///funcion para vaciar el carrito
-                    cantidadProductos()/// sumar la cantidad de productos al icono carrito
-                    vacio()///mostrar cartel de carrito vacio
-                    carritoContainer.style.display="none"
-                    modal.style.display = "none" /// oculta el fondo sombra del carrito
-                  Swal.fire(
-                    'Gracias por REALIZAR LA COMPRA!',
-                    'En breve BOLIVAR VIP se contactará con Ud. para coordinar la entrega.',
-                    'success'
-                     )
-                     
+                    pedirEmail() ////funcion que pide el email para confirmar la comprar
                 }
             })
         })
-
-
-    
-    
+        
 
     totalProductos() /// suma el TOTAL del PRECIO de los productos
 
@@ -241,9 +225,9 @@ function llenarCarrito(){
                 position: "center",
                 style: {
                     background: "#df4759",
-                  },
-                }).showToast();
-             })
+                },
+            }).showToast();
+        })
 
     })
 }
@@ -284,7 +268,6 @@ function vaciarCarrito() {
 }
 
 
-
 /* FUNCION PARA ELIMINAR EL PRODUCTO DEL CARRITO */
 const eliminarProducto= (id)=>{
     const foundId = carrito.find((element)=>element.id === id)
@@ -312,6 +295,14 @@ function vacio(){
     carrito.length === 0 ? carritoVacio.style.display = "block" : carritoVacio.style.display = "none"
 }
 
+carritoVacio.addEventListener("click",()=>{ ///abre un alert cuando se clickea sobre el boton de carrito vacio
+    Swal.fire({
+        icon: 'warning',
+        title: 'El carrito está vacio...',
+        text: 'Pulse COMPRAR en algun producto.',
+      })
+})
+
 /* EVENTO PARA ABRIR EL CARRITO CON EL BOTON CARRITO */
 verCarrito.addEventListener("click",()=>{
     pintarCarrito()
@@ -319,5 +310,31 @@ verCarrito.addEventListener("click",()=>{
 
      })
 
-cantidadProductos() /// sumar la cantidad de productos al icono carrito
+cantidadProductos() ///llama funcion para sumar la cantidad de productos al icono carrito
 
+
+/* FUNCION asincronica PARA DESPLEGAR EL ALERT AL CONFIRMAR LA COMPRA */
+const pedirEmail = async () => {
+    const { value: email } = await Swal.fire({ 
+        title: 'Para completar la COMPRA ingrese su email.',
+        input: 'email',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        inputLabel: 'Tu casilla de EMAIL',
+        inputPlaceholder: 'example@example.com'
+      })
+      
+    if (email) {
+        Swal.fire(
+            'Gracias por REALIZAR LA COMPRA!',
+            `En breve <strong>BOLIVAR VIP</strong> se contactará con Ud. a la casilla <strong>${email}</strong> para coordinar la entrega.`,
+            'success'
+        )
+        vaciarCarrito()///funcion para vaciar el carrito
+        cantidadProductos()/// sumar la cantidad de productos al icono carrito
+        vacio()///mostrar cartel de carrito vacio
+        carritoContainer.style.display="none"
+        modal.style.display = "none" /// oculta el fondo sombra del carrito
+    }
+}
